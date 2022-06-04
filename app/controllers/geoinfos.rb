@@ -21,6 +21,7 @@ module NTHUtouristAttractions
       # POST api/v1/geoinfos
       routing.post do
         new_data = JSON.parse(routing.body.read)
+        puts new_data
         new_geoinfo = Geoinfo.new(new_data)
         raise('Could not save geoinfo') unless new_geoinfo.save
 

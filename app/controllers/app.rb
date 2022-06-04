@@ -1,11 +1,19 @@
 # frozen_string_literal: true
 
 require 'roda'
+require 'rack/cors'
 require 'json'
 
 module NTHUtouristAttractions
   # Web controller for NTHUtouristAttractions API
   class Api < Roda
+    use Rack::Cors, debug: true, logger: Logger.new($stdout) do
+      allowed_methods = %i[get post put delete options head]
+      allow do
+        origins 'localhost:3000'
+        resource '*', headers: :any, methods: allowed_methods, credentials: true
+      end
+    end
     plugin :halt
     plugin :multi_route
 
