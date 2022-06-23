@@ -7,24 +7,16 @@ module NTHUtouristAttractions
   class Geoinfo < Sequel::Model
     plugin :timestamps, update_on_create: true
     plugin :whitelist_security
-    set_allowed_columns :uuid, :latitude, :longitude, :targetID, :entryOrExit
+    set_allowed_columns :userId, :poiId, :entryOrExit
 
     # Secure getters and setters
-    def latitude
-      SecureDB.decrypt(latitude_secure)
+    def poiId
+      SecureDB.decrypt(poiId_secure)
     end
 
-    def latitude=(plaintext)
-      self.latitude_secure = SecureDB.encrypt(plaintext)
+    def poiId=(plaintext)
+      self.poiId_secure = SecureDB.encrypt(plaintext)
     end
-
-    def longitude
-        SecureDB.decrypt(longitude_secure)
-      end
-  
-      def longitude=(plaintext)
-        self.longitude_secure = SecureDB.encrypt(plaintext)
-      end
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
@@ -32,10 +24,8 @@ module NTHUtouristAttractions
         {
           type: 'geoInfo',
           attributes: {
-            uuid:,
-            latitude:,
-            longitude:,
-            targetID:,
+            userId:,
+            poiId:,
             entryOrExit:
           },
         }, options
